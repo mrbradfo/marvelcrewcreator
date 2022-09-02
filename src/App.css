@@ -1,0 +1,181 @@
+
+.app {
+
+}
+
+.content {
+    display: flex;
+}
+
+.left {
+    display: flex;
+    flex: 2;
+}
+
+.right {
+    display: flex;
+    flex: 1;
+}
+
+.text {
+    color: black;
+}
+
+.title {
+    display: grid;
+    justify-content: center;
+    font-size: 45px;
+    font-weight: 900;
+}
+
+.search-form {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 1fr;
+    width: 50%;
+    margin-bottom: 3rem;
+}
+
+.search-label {
+    /*color: black;*/
+    font-weight: bold;
+    font-size: 3.5rem;
+    padding-right: 1rem;
+}
+
+.search-bar {
+    background: #efefef;
+    border: 10px;
+    padding: 1.5rem;
+    font-size: 1rem;
+    flex-grow: 1;
+    border-radius: 2.5rem;
+    width: auto;
+}
+
+.search-icon svg {
+    height: 50px;
+    width: 40px;
+    display: grid;
+}
+
+
+.search-result-grid {
+    height: 100%;
+    z-index: 1;
+    left: 10px;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.created-teams-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.no-teams {
+    padding: 10px;
+}
+
+.team-title {
+    font-weight: 900;
+    text-align: center;
+}
+
+@media (hover: hover) {
+}
+
+
+.create-btn {
+    margin: 5px;
+    border: 1px solid black;
+}
+
+.create-team-btn {
+    margin: 5px 0;
+    background: black;
+}
+
+.create-team-btn:hover {
+    background-color: #4d4d4d;
+}
+
+
+.results-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+
+.tile {
+    flex: 0 0 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: inherit;
+    box-shadow: 2rem 1rem 2rem -0.3rem rgba(0, 0, 0, 0.5);
+    margin-right: 2%;
+    margin-bottom: 4%;
+    border-radius: 25px;
+}
+
+.tile-img {
+    width: 100%;
+    background: transparent;
+    margin: 0;
+    position: relative;
+    padding-top: 100%;
+    overflow: hidden;
+    border-radius: 25px;
+
+}
+
+.tile-img:hover img {
+    transform: translate(-50%, -50%) translateZ(0) scale(1.2);
+}
+
+.tile-img img {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(0);
+    transition: transform 0.2s;
+}
+
+.title-menu {
+    font-weight: 900;
+}
+
+
+.more-btn {
+    display: block;
+    min-width: 20rem;
+    margin: 3rem auto;
+    padding: 0 3rem;
+    background: #100d0d;
+}
+
+.result-details {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+
+.no-teams h1,
+.loading h1,
+.error h1 {
+    font-size: 2.4rem;
+    text-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.5);
+}
+
+.error h1 {
+    color: #eb2f06;
+}
