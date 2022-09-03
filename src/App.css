@@ -85,9 +85,17 @@
     text-align: center;
 }
 
-@media (hover: hover) {
+.character-list-item {
+    display: flex;
+    align-items: center;
 }
-
+.add-selection {
+    display: grid;
+    grid-template-columns: 75% auto;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 5px;
+}
 
 .create-btn {
     margin: 5px;
@@ -135,7 +143,7 @@
 }
 
 .tile-img:hover img {
-    transform: translate(-50%, -50%) translateZ(0) scale(1.2);
+    transform: translate(-50%, -50%) translateZ(0) scale(1.025);
 }
 
 .tile-img img {
@@ -168,6 +176,12 @@
     left: 0;
 }
 
+@media (min-width: 768px) {
+    .tile {
+        flex: 0 0 20%;
+        margin-right: 2%;
+    }
+}
 
 .no-teams h1,
 .loading h1,

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Accordion, Card, Center, Image, Menu, Modal, Text} from "@mantine/core";
-import {IconInfoCircle, IconInfoSquare, IconPlus, IconSettings} from "@tabler/icons";
+import {Accordion, Button, Card, Center, Image, Menu, Modal, NativeSelect, Text} from "@mantine/core";
+import {IconInfoSquare, IconPlus} from "@tabler/icons";
 
 export class Tile extends Component {
 
@@ -8,9 +8,13 @@ export class Tile extends Component {
         super(props);
 
         this.state = {
-            modalOpen: false,
+            detailModalOpen: false,
+            addCharacterModalOpen: false,
             teamName: ''
         };
+
+        this.teamSelection = React.createRef();
+
     }
 
 
@@ -76,36 +80,71 @@ export class Tile extends Component {
             }
         </Accordion.Item>;
 
-        const characterDetailsModal = this.props.data ?
+        const characterDetailsAccordion = this.props.data ?
             <>
                 {header}
-
                 <Accordion chevronPosition="left" sx={{maxWidth: 400}} mx="auto">
                     {comics}
                     {series}
                     {stories}
                     {events}
                 </Accordion>
-
             </>
             :
-            <p>No character data found</p>;
+            <p>No character data found!</p>;
+
+
+        const characterDetailsModal = <Modal
+            opened={this.state.detailModalOpen}
+            onClose={() => this.setState({detailModalOpen: false})}
+            title={this.props.title.toUpperCase()}
+            withCloseButton={true}
+            overlayBlur={4}
+        >
+            <div className="character-details-modal">
+                {characterDetailsAccordion}
+            </div>
+        </Modal>;
+
+        const addToTeamModal = <Modal
+            opened={this.state.addCharacterModalOpen}
+            onClose={() => this.setState({addCharacterModalOpen: false})}
+            title={this.props.title.toUpperCase()}
+            withCloseButton={true}
+            overlayBlur={4}>
+            <div className="character-details-modal">
+                {
+                    <>
+                        <div className="add-selection">
+                            <NativeSelect
+                                data={this.props.teams.map(a => a.teamName)}
+                                ref={this.teamSelection}
+                                label="Add"
+                                description="Add to a team"
+                            />
+
+                            <Button
+                                className="create-team-btn"
+                                onClick={() => {
+                                    this.addCharacterToTeam(this.props.data, this.teamSelection.current.value);
+                                }}
+                            >Add</Button>
+                        </div>
+                    </>
+                }
+            </div>
+        </Modal>;
 
 
         return (
             <>
-
-                {/*//start*/}
-                <Menu shadow="md" width={200} position={"right"} withArrow={true}  closeDelay={200}>
+                <Menu shadow="md" width={250} position={"right"} withArrow={true} closeDelay={200}
+                      closeOnItemClick={false}>
                     <Menu.Target>
-                        <button className="tile"
-                                // onClick={() => {
-                                //     this.onTileClick();
-                                // }}
-                        >
-                            <figure className="tile-img">
+                        <button className="tile">
+                            <div className="tile-img">
                                 <img src={this.props.image} alt={this.props.title}/>
-                            </figure>
+                            </div>
                             <h2>{this.props.title}</h2>
                         </button>
                     </Menu.Target>
@@ -113,33 +152,42 @@ export class Tile extends Component {
                     <Menu.Dropdown>
                         <Menu.Label>{this.props.title}</Menu.Label>
                         <Menu.Item
+                            className="title-menu"
+                            icon={<IconPlus size={25}/>}
+                            onClick={() => {
+                                this.showAddToTeamModal();
+                            }}
+                        >
+                            ADD TO TEAM
+                        </Menu.Item>
+                        <Menu.Item
                             onClick={() => {
                                 this.showDetailsModal();
                             }}
-                            className="title-menu" icon={<IconInfoSquare size={14}/>}>DETAILS</Menu.Item>
-                        <Menu.Item className="title-menu" icon={<IconPlus size={14}/>}>ADD TO TEAM</Menu.Item>
+                            className="title-menu" icon={<IconInfoSquare size={14}/>}>SHOW DETAILS</Menu.Item>
+
                     </Menu.Dropdown>
                 </Menu>
-                {/*end*/}
-
-
-                <Modal
-                    opened={this.state.modalOpen}
-                    onClose={() => this.setState({modalOpen: false})}
-                    title={this.props.title.toUpperCase()}
-                    withCloseButton={true}
-                    overlayBlur={4}
-                >
-                    <div className="character-details-modal">
-                        <p>{characterDetailsModal}</p>
-                    </div>
-                </Modal>
+                {addToTeamModal}
+                {characterDetailsModal}
             </>
         );
     }
 
-    // - open modal when character gets clicked
     showDetailsModal() {
-        this.setState({modalOpen: true});
+        this.setState({detailModalOpen: true});
+    }
+
+    showAddToTeamModal() {
+        this.props.teams.length>0
+            ?
+            this.setState({addCharacterModalOpen: true})
+            :
+            alert("First create a team over on the right! :) 👉");
+    }
+
+    addCharacterToTeam(characterData, teamName) {
+        this.props.addCharacterToTeam(characterData, teamName);
+        this.setState({addCharacterModalOpen:false})
     }
 }

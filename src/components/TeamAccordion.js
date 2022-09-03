@@ -1,28 +1,46 @@
 import React, {Component} from "react";
-import {Accordion, ActionIcon, Box} from '@mantine/core';
+import {Accordion, ActionIcon, Avatar, Box} from '@mantine/core';
 import {IconTrash} from "@tabler/icons";
 
 
 export class TeamAccordion extends Component {
 
     render() {
-        const teamsElement = this.props.teams.length > 0 ?
+        const teamsAccordion = this.props.teams.length > 0 ?
             <Accordion chevronPosition="left" sx={{maxWidth: 400}} mx="auto">
                 {
                     this.props.teams.map((result, index) => {
                         return (
                             <Accordion.Item
-                                className="accordion" key={index.toString()} value={result+"-item"}>
+                                className="accordion" key={index.toString()} value={result.teamName + "-item"}>
                                 <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                    <Accordion.Control>{result}</Accordion.Control>
+                                    <Accordion.Control>{result.teamName}</Accordion.Control>
                                     <ActionIcon onClick={() => {
-                                        this.onDeleteClicked(index);
+                                        this.onDeleteTeamClicked(index);
                                     }}
                                                 size="lg">
                                         <IconTrash size={16}/>
                                     </ActionIcon>
                                 </Box>
-                                <Accordion.Panel>{result}</Accordion.Panel>
+                                {
+                                    result.characters.length > 0 ?
+                                        result.characters.map((item, characterIndex) => (
+                                                <Accordion.Panel key={characterIndex}>{
+                                                    <div className="character-list-item">
+                                                        <Avatar src={item.thumbnail.path + '.' + item.thumbnail.extension} alt="it's me"/>
+                                                        <div>{item.name}</div>
+                                                        <ActionIcon onClick={() => {
+                                                            this.onDeleteCharacterClicked(item.id, index);
+                                                        }}
+                                                                    size="lg">
+                                                            <IconTrash size={16}/>
+                                                        </ActionIcon>
+                                                    </div>
+                                                }</Accordion.Panel>
+                                            )
+                                        ) :
+                                        <Accordion.Panel> 👈 Search and select a character to add to this team! 🔎</Accordion.Panel>
+                                }
                             </Accordion.Item>
                         );
                     })}
@@ -31,42 +49,17 @@ export class TeamAccordion extends Component {
 
         return (
             <>
-                {teamsElement}
+                {teamsAccordion}
             </>
         );
     }
 
+    onDeleteTeamClicked(teamIndex) {
+        this.props.onDeleteTeamClicked(teamIndex);
+    }
 
-    // const teamsElement = this.props.teams.length>0 ?
-    //     this.props.teams.map((result, index) => {
-    //         return (
-    //             <Accordion.Item
-    //                 className="accordion" key={index} value={result} >
-    //                 <Box sx={{display: 'flex', alignItems: 'center'}}>
-    //                     <Accordion.Control>{result}</Accordion.Control>
-    //                     <ActionIcon onClick={() => {
-    //                         this.onDeleteClicked(index);
-    //                     }}
-    //                                 size="lg">
-    //                         <IconTrash size={16}/>
-    //                     </ActionIcon>
-    //                 </Box>
-    //                 <Accordion.Panel>{result}</Accordion.Panel>
-    //             </Accordion.Item>
-    //         );
-    //     })
-    //     : <h1>{'create a team above! 👆'}</h1>;
-
-    // return (
-    //     <Accordion chevronPosition="left" sx={{maxWidth: 400}} mx="auto">
-    //         {teamsElement}
-    //     </Accordion>
-    // );
-// }
-
-
-    onDeleteClicked(teamName) {
-        this.props.onDeleteClicked(teamName);
+    onDeleteCharacterClicked(characterId, teamIndex) {
+        this.props.onDeleteCharacterClicked(characterId, teamIndex);
     }
 
 }

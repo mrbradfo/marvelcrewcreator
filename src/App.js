@@ -27,34 +27,36 @@ class App extends Component {
 
         this.addNewTeam = this.addNewTeam.bind(this);
         this.removeTeam = this.removeTeam.bind(this);
+        this.addCharacterToTeam = this.addCharacterToTeam.bind(this);
+        this.removeCharacterFromTeam = this.removeCharacterFromTeam.bind(this);
     }
 
     render() {
-        const resultsElem = this.state.hasError
-            ? <Error/>
-            : this.state.isLoading
-                ? <Loading searchWord={this.state.searchWord}/>
-                : (
+        const searchResults = this.state.hasError ?
+            <Error/>
+            : this.state.isLoading ?
+                <Loading searchWord={this.state.searchWord}/> :
+                (
                     <ResultsList
                         results={this.state.results}
+                        teams={this.state.teams}
                         searchWord={this.state.searchWord}
                         onResultClick={this.getCharacter}
+                        addCharacterToTeam={this.addCharacterToTeam}
                     />
                 );
 
-        const loadMoreElem = this.state.canLoadMore
-            ? <LoadMore onClick={this.getMoreCharacters}/>
-            : '';
+        const loadMoreBtn = this.state.canLoadMore ?
+            <LoadMore onClick={this.getMoreCharacters}/> :
+            '';
 
 
-
-        const teamsElement =
-            // this.state.teams.length>0 ?
-                <TeamAccordion
-            teams={this.state.teams}
-            onDeleteClicked={this.removeTeam}
-        />
-                // : '';
+        const teamsAccordion =
+            <TeamAccordion
+                teams={this.state.teams}
+                onDeleteTeamClicked={this.removeTeam}
+                onDeleteCharacterClicked={this.removeCharacterFromTeam}
+            />
 
         return (
             <section className="app">
@@ -66,8 +68,8 @@ class App extends Component {
                 <div className="content">
                     <div className="left">
                         <div className="search-result-grid">
-                            {resultsElem}
-                            {loadMoreElem}
+                            {searchResults}
+                            {loadMoreBtn}
                         </div>
                     </div>
                     <div className="right">
@@ -78,7 +80,7 @@ class App extends Component {
                                              currentTeams={this.state.teams}
                             />
                             <div className="current-teams-list">
-                                {teamsElement}
+                                {teamsAccordion}
                             </div>
                         </div>
                     </div>
@@ -102,6 +104,7 @@ class App extends Component {
             this.getCharacters();
         }
     }
+
 
 
     getCharacters = () => {
@@ -152,25 +155,22 @@ class App extends Component {
     }
 
 
-
     addNewTeam(teamName) {
         console.log("adding team " + teamName);
-        // if (this.state.teams.includes(teamName)) {
-        //     alert("a team with the name '" + teamName + "' already exists!");
-        // } else if (teamName === '') {
-        //    alert("Name can not be empty! :)")
-        // } else {
-            this.setState({
-                teams: [...this.state.teams, teamName]
-            });
-            localStorage.setItem("teams", this.state.teams);
-        // }
+        let newTeam =
+            {
+                teamName: teamName,
+                characters: [],
+            };
+
+        this.setState({teams: [...this.state.teams, newTeam]});
+        // localStorage.setItem("teams");
     }
 
     removeTeam(index) {
-        console.log("removing team " + this.state.teams[index])
+        console.log("removing team " + this.state.teams[index].teamName)
 
-        var clonedTeams = [...this.state.teams];
+        const clonedTeams = [...this.state.teams];
 
         clonedTeams.splice(index, 1);
 
@@ -180,6 +180,34 @@ class App extends Component {
 
     }
 
+    removeCharacterFromTeam(characterId, teamIndex) {
+        console.log("removing character " + characterId + " from team " + this.state.teams[teamIndex].teamName);
+
+        const team = this.state.teams[teamIndex];
+        const characterIndex = team.characters.findIndex((char) => char.id === characterId);
+
+        team.characters.splice(characterIndex, 1)
+
+        this.setState({
+            ...this.state.teams[teamIndex],
+            characters: [...team.characters]
+        });
+    }
+
+    addCharacterToTeam(newCharacterName, teamName) {
+        console.log("adding " + newCharacterName.name + " to team " + teamName);
+
+        const index = this.state.teams.findIndex((team) => team.teamName === teamName);
+
+        let updatedTeams = [...this.state.teams];
+        updatedTeams[index].characters.push(newCharacterName)
+
+
+        this.setState({
+            teams: [...updatedTeams]
+        });
+
+    }
 }
 
 export default App;

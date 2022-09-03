@@ -8,9 +8,11 @@ export class ResultsList extends Component {
         return (
           <Tile
             data={result}
+            teams={this.props.teams}
             key={ result.id }
             image={ result.thumbnail.path + '.' + result.thumbnail.extension }
             title={result.name}
+            addCharacterToTeam={this.props.addCharacterToTeam}
             onClick={ () => this.props.onResultClick(result.id) }
           />
         );

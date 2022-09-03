@@ -8,7 +8,7 @@ export class CreateTeamModal extends Component {
 
         this.state = {
             modalOpen: false,
-            teamName: ''
+            newTeamName: ''
         };
         this.createTeam = this.createTeam.bind(this);
     }
@@ -29,7 +29,7 @@ export class CreateTeamModal extends Component {
                     <TextInput
                         mt={'md'}
                         placeholder={'Team Name'}
-                        onChange={(event) => this.setState({teamName: event.currentTarget.value})}
+                        onChange={(event) => this.setState({newTeamName: event.currentTarget.value})}
                         data-autofocus
                     />
                     <Button className="create-team-btn"
@@ -56,19 +56,19 @@ export class CreateTeamModal extends Component {
     }
 
     handleSubmit(event) {
-        // this is here so pressing enter does not reload the page
+        // this is here so the page is not reloaded when the form is submitted
         event.preventDefault();
     }
 
     createTeam() {
-        if (this.props.currentTeams.includes(this.state.teamName)) {
-            alert("a team with the name '" + this.state.teamName + "' already exists!");
-        } else if (this.state.teamName === '') {
+        if (this.props.currentTeams.findIndex((team) => team.teamName === this.state.newTeamName) >= 0) {
+            alert("a team with the name '" + this.state.newTeamName + "' already exists!");
+        } else if (this.state.newTeamName === '') {
             alert("Name can not be empty! :)")
         } else {
-            this.props.onCreateClick(this.state.teamName);
+            this.props.onCreateClick(this.state.newTeamName);
             this.setState({modalOpen: false});
-            this.setState({teamName: ''});
+            this.setState({newTeamName: ''});
         }
     }
 }
