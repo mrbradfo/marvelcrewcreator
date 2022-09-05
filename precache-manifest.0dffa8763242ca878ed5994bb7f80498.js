@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "e2bd81dc19675a2cec42",
-    "url": "/marvelcrewcreator/static/css/main.78427418.chunk.css"
+    "revision": "5b5bcf1adb8c4d912613",
+    "url": "/marvelcrewcreator/static/css/main.18a64a0b.chunk.css"
   },
   {
-    "revision": "e2bd81dc19675a2cec42",
-    "url": "/marvelcrewcreator/static/js/main.e2bd81dc.chunk.js"
+    "revision": "5b5bcf1adb8c4d912613",
+    "url": "/marvelcrewcreator/static/js/main.5b5bcf1a.chunk.js"
   },
   {
     "revision": "dbe6079872b7e647bc87",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/marvelcrewcreator/static/media/marvel_loader.e65ca722.gif"
   },
   {
-    "revision": "abc6e10511c9dea0fadc8d52c9d41f23",
+    "revision": "cf446de93611685812a9a87dbab38198",
     "url": "/marvelcrewcreator/index.html"
   }
 ];

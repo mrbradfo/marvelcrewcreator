@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/marvelcrewcreator/precache-manifest.40e69cd08f2d0c78d2ed3d4abebd0f58.js"
+  "/marvelcrewcreator/precache-manifest.0dffa8763242ca878ed5994bb7f80498.js"
 );
 
 workbox.clientsClaim();
