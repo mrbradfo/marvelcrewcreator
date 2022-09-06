@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "3ba410c564e777c197fe",
-    "url": "/static/css/main.3d84775a.chunk.css"
+    "revision": "0d79c190f989bec0008b",
+    "url": "/static/css/main.a033442a.chunk.css"
   },
   {
-    "revision": "3ba410c564e777c197fe",
-    "url": "/static/js/main.3ba410c5.chunk.js"
+    "revision": "0d79c190f989bec0008b",
+    "url": "/static/js/main.0d79c190.chunk.js"
   },
   {
     "revision": "287d6ada9a3f748c70e2",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/static/media/marvel_loader.e65ca722.gif"
   },
   {
-    "revision": "48437cc3e42446d15db34c2f94302bc6",
+    "revision": "2762555ab62d3b8ad9eb8f647b9b2abd",
     "url": "/index.html"
   }
 ];
