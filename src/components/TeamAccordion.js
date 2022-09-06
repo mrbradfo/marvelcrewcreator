@@ -6,7 +6,7 @@ import {IconTrash} from "@tabler/icons";
 export class TeamAccordion extends Component {
 
     render() {
-        const teamsAccordion = this.props.teams.length > 0 ?
+        const teamsAccordion = this.props.teams?
             <Accordion chevronPosition="left" sx={{maxWidth: 400}} mx="auto">
                 {
                     this.props.teams.map((result, index) => {
@@ -39,13 +39,13 @@ export class TeamAccordion extends Component {
                                                 }</Accordion.Panel>
                                             )
                                         ) :
-                                        <Accordion.Panel> 👈 Search and select a character to add to this team! 🔎</Accordion.Panel>
+                                        <Accordion.Panel> <span role="img" aria-label="point-left">👈</span> Search and select a character to add to this team! <span role="img" aria-label="search">🔎</span></Accordion.Panel>
                                 }
                             </Accordion.Item>
                         );
                     })}
             </Accordion>
-            : <div className="no-teams">Create a team above! 👆</div>;
+            : <div className="no-teams">Create a team above! <span role="img" aria-label="point-up">👆</span> </div>;
 
         return (
             <>

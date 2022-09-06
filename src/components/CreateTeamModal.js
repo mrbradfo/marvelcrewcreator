@@ -1,5 +1,5 @@
 import {Button, Modal, TextInput, Tooltip} from '@mantine/core';
-import {Component} from "react";
+import React, { Component }  from 'react';
 
 export class CreateTeamModal extends Component {
 
@@ -10,7 +10,6 @@ export class CreateTeamModal extends Component {
             modalOpen: false,
             newTeamName: ''
         };
-        this.createTeam = this.createTeam.bind(this);
     }
 
     render() {

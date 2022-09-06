@@ -19,8 +19,6 @@ export class MarvelAPI {
     };
   }
 
-
-
   getCharacters(param = {}) {
     const params = {...param, ...this.getAuthInfo()};
 

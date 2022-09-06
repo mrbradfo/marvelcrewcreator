@@ -8,6 +8,15 @@ import {MarvelAPI} from './services/MarvelAPI';
 import {Error} from "./components/Error";
 import {CreateTeamModal} from './components/CreateTeamModal';
 import {TeamAccordion} from "./components/TeamAccordion";
+import _ from "lodash";
+
+
+function getTeams() {
+    // getting saved teams
+    const saved = localStorage.getItem("teams");
+    const initial = JSON.parse(saved);
+    return initial || [];
+}
 
 
 class App extends Component {
@@ -20,7 +29,7 @@ class App extends Component {
             results: [],
             canLoadMore: false,
             selectedResult: null,
-            teams: []
+            teams: getTeams()
         };
 
         this.marvelService = new MarvelAPI();
@@ -29,7 +38,11 @@ class App extends Component {
         this.removeTeam = this.removeTeam.bind(this);
         this.addCharacterToTeam = this.addCharacterToTeam.bind(this);
         this.removeCharacterFromTeam = this.removeCharacterFromTeam.bind(this);
+        this.getCharacters = this.getCharacters.bind(this);
+
+
     }
+
 
     render() {
         const searchResults = this.state.hasError ?
@@ -98,17 +111,19 @@ class App extends Component {
                 results: [],
                 canLoadMore: false
             })
-        }
-
-        if (searchWord && (searchWord !== prevSearchWord)) {
-            this.getCharacters();
+        } if (searchWord && (searchWord !== prevSearchWord)) {
+            this.setState({isLoading: true});
+            this.debouncedSearch();
         }
     }
 
 
 
+    debouncedSearch = _.debounce(function () {
+        this.getCharacters();
+    }, 500);
+
     getCharacters = () => {
-        this.setState({isLoading: true});
 
         this.marvelService.getCharacters({
             nameStartsWith: this.state.searchWord,
@@ -127,6 +142,7 @@ class App extends Component {
     }
 
     getCharacter = (id) => {
+
         this.marvelService.getCharacter(id)
             .then((data) => {
                 this.setState({selectedResult: data.results[0]});
@@ -135,6 +151,7 @@ class App extends Component {
                 console.error(err);
                 this.setState({hasError: true});
             });
+
     }
 
     getMoreCharacters = () => {
@@ -154,7 +171,6 @@ class App extends Component {
             });
     }
 
-
     addNewTeam(teamName) {
         console.log("adding team " + teamName);
         let newTeam =
@@ -164,7 +180,7 @@ class App extends Component {
             };
 
         this.setState({teams: [...this.state.teams, newTeam]});
-        // localStorage.setItem("teams");
+        localStorage.setItem("teams", JSON.stringify([...this.state.teams, newTeam]));
     }
 
     removeTeam(index) {
@@ -178,6 +194,7 @@ class App extends Component {
             teams: [...clonedTeams]
         });
 
+        localStorage.setItem("teams", JSON.stringify([...clonedTeams]));
     }
 
     removeCharacterFromTeam(characterId, teamIndex) {
@@ -192,6 +209,7 @@ class App extends Component {
             ...this.state.teams[teamIndex],
             characters: [...team.characters]
         });
+        localStorage.setItem("teams", JSON.stringify(this.state.teams));
     }
 
     addCharacterToTeam(newCharacterName, teamName) {
@@ -206,7 +224,7 @@ class App extends Component {
         this.setState({
             teams: [...updatedTeams]
         });
-
+        localStorage.setItem("teams", JSON.stringify([...updatedTeams]));
     }
 }
 

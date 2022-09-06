@@ -6,7 +6,7 @@ export class Loading extends Component {
     return (
       <div className="text">
         <h1>{ 'Searching for "' + this.props.searchWord + '".' }</h1>
-        <img src={loading}/>
+        <img src={loading} alt="loading..."/>
       </div>
     );
   }
