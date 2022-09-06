@@ -124,7 +124,6 @@ class App extends Component {
     }, 500);
 
     getCharacters = () => {
-
         this.marvelService.getCharacters({
             nameStartsWith: this.state.searchWord,
         })
@@ -133,6 +132,7 @@ class App extends Component {
                     results: data.results,
                     canLoadMore: data.total > data.offset + data.count,
                     isLoading: false,
+                    hasError: false
                 });
             })
             .catch((err) => {
@@ -142,10 +142,12 @@ class App extends Component {
     }
 
     getCharacter = (id) => {
-
         this.marvelService.getCharacter(id)
             .then((data) => {
-                this.setState({selectedResult: data.results[0]});
+                this.setState({
+                    selectedResult: data.results[0],
+                    hasError: false
+                });
             })
             .catch((err) => {
                 console.error(err);
